@@ -1,3 +1,4 @@
+from typing import Tuple
 import os
 from urllib.parse import urljoin
 import requests
@@ -8,7 +9,7 @@ API_SUFFIX = "/inference"
 DEBUG = False
 
 
-def get_togetherai_completion(endpoint, model, prompt, context_window, user, settings={}, grammar=None):
+def get_togetherai_completion(endpoint, model, prompt, context_window, user, settings={}, grammar=None) -> Tuple[str, dict]:
     """https://docs.together.ai/docs/inference-rest"""
     prompt_tokens = count_tokens(prompt)
     if prompt_tokens > context_window:
@@ -49,5 +50,10 @@ def get_togetherai_completion(endpoint, model, prompt, context_window, user, set
     except:
         # TODO handle gracefully
         raise
-
-    return result
+    # TODO: implement usage
+    usage = {
+        "prompt_tokens": None,
+        "completion_tokens": None,
+        "total_tokens": None,
+    }
+    return result, usage
