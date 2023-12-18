@@ -807,3 +807,10 @@ def extract_date_from_timestamp(timestamp):
     # Extracts the date (ignoring the time and timezone)
     match = re.match(r"(\d{4}-\d{2}-\d{2})", timestamp)
     return match.group(1) if match else None
+
+def fix_file_path(path):
+    """
+    Converts backslashes to forward slashes in a file path.
+    This is useful for ensuring compatibility in file paths across different systems.
+    """
+    return path.replace('\\', '/')
