@@ -12,6 +12,7 @@ from typing import List, Optional, Dict
 from abc import abstractmethod
 
 from llama_index import VectorStoreIndex, ServiceContext, set_global_service_context
+from llama_index.indices.query.schema import QueryBundle
 from llama_index.indices.empty.base import EmptyIndex
 from llama_index.retrievers import VectorIndexRetriever
 from llama_index.schema import TextNode
@@ -259,6 +260,9 @@ class InMemoryStorageConnector(StorageConnector):
             function_response=message["function_response"] if "function_response" in message else None,
             id=message["id"] if "id" in message else None,
         )
+        nodes = retriever.retrieve(str_or_query_bundle=QueryBundle(query_str=query, embedding=query_vec))
+        results = [Passage(embedding=node.embedding, text=node.text) for node in nodes]
+        return results
 
     def message_to_json(self, message: Message) -> Dict:
         """Convert Message object into JSON"""
@@ -273,7 +277,6 @@ class InMemoryStorageConnector(StorageConnector):
                 "id": message.id,
             },
         }
-
     def save(self):
         """Save state of storage connector"""
         timestamp = get_local_time().replace(" ", "_").replace(":", "_")
