@@ -7,6 +7,8 @@ import os
 import uuid
 from dataclasses import dataclass
 import configparser
+import typer
+import questionary
 
 import memgpt
 import memgpt.utils as utils
@@ -229,6 +231,18 @@ class MemGPTConfig:
 
     @classmethod
     def load(cls) -> "MemGPTConfig":
+        # avoid circular import
+        from memgpt.migrate import config_is_compatible, VERSION_CUTOFF
+
+        if not config_is_compatible(allow_empty=True):
+            error_message = " ".join(
+                [
+                    f"\nYour current config file is incompatible with MemGPT versions later than {VERSION_CUTOFF}.",
+                    f"\nTo use MemGPT, you must either downgrade your MemGPT version (<= {VERSION_CUTOFF}) or regenerate your config using `memgpt configure`, or `memgpt migrate` if you would like to migrate old agents.",
+                ]
+            )
+            raise ValueError(error_message)
+
         config = configparser.ConfigParser()
 
         # allow overriding with env variables
