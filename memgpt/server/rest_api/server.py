@@ -10,6 +10,7 @@ from memgpt.server.rest_api.agents.command import setup_agents_command_router
 from memgpt.server.rest_api.agents.config import setup_agents_config_router
 from memgpt.server.rest_api.agents.memory import setup_agents_memory_router
 from memgpt.server.rest_api.agents.message import setup_agents_message_router
+from memgpt.server.rest_api.auth.index import setup_auth_router
 from memgpt.server.rest_api.config.index import setup_config_index_router
 from memgpt.constants import JSON_ENSURE_ASCII
 from memgpt.server.server import SyncServer
@@ -48,6 +49,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+# /api/auth endpoints
+app.include_router(setup_auth_router(server, interface), prefix=API_PREFIX)
 # /api/agents endpoints
 app.include_router(setup_agents_command_router(server, interface), prefix=API_PREFIX)
 app.include_router(setup_agents_config_router(server, interface), prefix=API_PREFIX)
