@@ -9,6 +9,7 @@ from dataclasses import dataclass, field
 import configparser
 import typer
 import questionary
+from typing import Optional
 
 import memgpt
 import memgpt.utils as utils
@@ -49,7 +50,6 @@ class MemGPTConfig:
     # persona parameters
     persona: str = DEFAULT_PERSONA
     human: str = DEFAULT_HUMAN
-    agent: str = None
 
     # model parameters
     default_llm_config: LLMConfig = field(default_factory=LLMConfig)
@@ -236,7 +236,6 @@ class MemGPTConfig:
         set_field(config, "defaults", "preset", self.preset)
         set_field(config, "defaults", "persona", self.persona)
         set_field(config, "defaults", "human", self.human)
-        set_field(config, "defaults", "agent", self.agent)
 
         # model defaults
         set_field(config, "model", "model", self.default_llm_config.model)
