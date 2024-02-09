@@ -10,6 +10,7 @@ import subprocess
 import uuid
 import sys
 import io
+import hashlib
 from typing import List
 import inspect
 from functools import wraps
@@ -1016,3 +1017,11 @@ def fix_file_path(path):
     This is useful for ensuring compatibility in file paths across different systems.
     """
     return path.replace("\\", "/")
+
+def create_uuid_from_string(val: str):
+    """
+    Generate consistent UUID from a string
+    from: https://samos-it.com/posts/python-create-uuid-from-random-string-of-words.html
+    """
+    hex_string = hashlib.md5(val.encode("UTF-8")).hexdigest()
+    return uuid.UUID(hex=hex_string)
