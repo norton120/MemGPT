@@ -18,7 +18,6 @@ from memgpt.functions.functions import load_all_function_sets
 from memgpt.constants import MEMGPT_DIR, LLM_MAX_TOKENS, DEFAULT_HUMAN, DEFAULT_PERSONA, DEFAULT_PRESET
 from memgpt.data_types import AgentState, User, LLMConfig, EmbeddingConfig
 from memgpt.constants import MEMGPT_DIR, LLM_MAX_TOKENS, DEFAULT_HUMAN, DEFAULT_PERSONA, LOGGER_NAME
-from memgpt.presets.presets import DEFAULT_PRESET
 
 
 # helper functions for writing to configs
